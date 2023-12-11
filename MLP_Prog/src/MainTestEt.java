@@ -1,4 +1,4 @@
-public class MainTest {
+public class MainTestEt {
     public static void main(String[] args) {
         int[][] et = new int[][]{
                 new int[]{0,0,0},
