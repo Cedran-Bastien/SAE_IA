@@ -8,9 +8,9 @@ public class OutestMain {
                 new int[]{1, 0, 1},
                 new int[]{1, 1, 1}
         };
-        MLP mlp = new MLP(new int[]{2, 16, 8, 4, 1}, 0.001, new TanH());
+        MLP mlp = new MLP(new int[]{2, 1}, 0.01, new Sigmoide());
         double error = 1;
-        while (error > 0.1) {
+        while (error > 0.01) {
             for (int j = 0; j < ou.length; j++) {
                 double[] input = new double[]{ou[j][0], ou[j][1]};
                 double[] output = new double[]{ou[j][2]};

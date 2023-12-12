@@ -6,7 +6,7 @@ public class MainTestEt {
                 new int[]{1,0,0},
                 new int[]{1,1,1}
         };
-        MLP mlp = new MLP(new int[]{2,16,8,4,1},0.001,new TanH());
+        MLP mlp = new MLP(new int[]{2,1},0.01,new Sigmoide());
         double error = 1;
         while (error > 0.1){
             for (int j =0;j<et.length;j++){
