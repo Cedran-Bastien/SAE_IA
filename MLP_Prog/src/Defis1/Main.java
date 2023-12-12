@@ -12,7 +12,7 @@ public class Main {
         AlgoGenetic algoGenetic = new AlgoGenetic(0, 500, depart, arrivee);
         CosineAnnealingWarmRestarts scheduler = new CosineAnnealingWarmRestarts(1, 2, 0.5, 0.1);
         algoGenetic.setMutationRate(scheduler.getNext());
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 1000; i++) {
             algoGenetic.run();
             System.out.println("Generation "+i+" time: "+algoGenetic.getBest().getTotalTime());
             algoGenetic.setMutationRate(scheduler.getNext());

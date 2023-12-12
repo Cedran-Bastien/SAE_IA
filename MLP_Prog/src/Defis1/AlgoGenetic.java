@@ -48,20 +48,25 @@ public class AlgoGenetic {
      * Sélection d'un trajet, plus le score est élevé plus il a de chance d'être sélectionné
      * @return trajet sélectionné
      */
-    public Trajets selection() {
+    public Trajets selection(List<Trajets> population) {
         double totalScore = 0;
-        for (Trajets trajet : this.population) {
+        for (Trajets trajet : population) {
             totalScore += trajet.getScore();
         }
         double random = Math.random() * totalScore;
-        Collections.sort(this.population);
-        for (Trajets trajet : this.population) {
+        Collections.sort(population);
+        for (Trajets trajet : population) {
             random -= trajet.getScore();
             if (random <= 0) {
                 return trajet.clone();
             }
         }
         return null;
+    }
+
+    public Trajets selection(List<Trajets> population, Trajets whithout) {
+        population.remove(whithout);
+        return this.selection(population);
     }
 
     /**
@@ -111,13 +116,18 @@ public class AlgoGenetic {
     public void run() throws IOException, ParseException {
         List<Trajets> newPopulation = new ArrayList<>();
         for (int i = 0; i < this.populationSize/2; i++) {
-            Trajets t1 = this.selection();
-            Trajets t2 = this.selection();
+            Trajets t1 = this.selection(new ArrayList<>(this.population));
+            //System.out.println("t1: "+t1.getTotalTime());
+            Trajets t2 = this.selection(new ArrayList<>(this.population), t1);
+            //System.out.println("t2: "+t2.getTotalTime());
             Trajets t3 = this.multiplication(t1, t2);
+            //System.out.println("t3: "+t3.getTotalTime());
             t3 = this.mutation(t3);
+            //System.out.println("t3: "+t3.getTotalTime());
             newPopulation.add(t3);
         }
         this.population.addAll(newPopulation);
+        //System.out.println("Population size: "+this.population.size());
         this.population = this.cliner();
     }
 
