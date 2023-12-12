@@ -7,13 +7,43 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Classe représentant un trajet entre deux villes
+ */
 public class Trajets implements Comparable<Trajets>{
+
+    /**
+     * Ville de départ
+     */
     private Ville depart;
+
+    /**
+     * Ville d'arrivée
+     */
     private Ville arrivee;
+
+    /**
+     * Liste des étapes
+     */
     private List<Ville> etapes;
+
+    /**
+     * Temps total du trajet
+     */
     private double totalTime;
+
+    /**
+     * Carte
+     */
     private static Carte carte;
 
+    /**
+     * Constructeur, génère aléatoirement les étapes
+     * @param depart ville de départ
+     * @param arrivee ville d'arrivée
+     * @throws IOException
+     * @throws ParseException
+     */
     public Trajets(Ville depart, Ville arrivee) throws IOException, ParseException {
         this.depart = depart;
         this.arrivee = arrivee;
@@ -27,6 +57,14 @@ public class Trajets implements Comparable<Trajets>{
         this.totalTime = this.totalTime();
     }
 
+    /**
+     * Constructeur
+     * @param depart ville de départ
+     * @param arrivee ville d'arrivée
+     * @param etapes étapes
+     * @throws IOException
+     * @throws ParseException
+     */
     public Trajets(Ville depart, Ville arrivee, List<Ville> etapes) throws IOException, ParseException {
         this.depart = depart;
         this.arrivee = arrivee;
@@ -55,6 +93,10 @@ public class Trajets implements Comparable<Trajets>{
         return totalTime;
     }
 
+    /**
+     * Mutation du trajet, échange deux étapes aléatoirement
+     * @return nouveau trajet
+     */
     public Trajets mutation() {
         Trajets newTrajet = this.clone();
         int random1 = (int) (Math.random() * newTrajet.etapes.size());
@@ -85,6 +127,10 @@ public class Trajets implements Comparable<Trajets>{
         return Double.compare(this.totalTime, o.totalTime);
     }
 
+    /**
+     * Récupère le score du trajet, plus le score est élevé plus le trajet est bon
+     * @return score
+     */
     public double getScore(){
         return 1/this.totalTime;
     }
@@ -113,5 +159,19 @@ public class Trajets implements Comparable<Trajets>{
 
     public double getTotalTime() {
         return totalTime;
+    }
+
+    @Override
+    public String toString() {
+        String str = "Trajet{" +
+                "depart=" + depart.getCity() +
+                ", arrivee=" + arrivee.getCity() +
+                ", etapes=";
+        for (Ville ville : this.etapes) {
+            str += ville.getCity() + " ";
+        }
+        str += ", totalTime=" + totalTime +
+                '}';
+        return str;
     }
 }

@@ -13,6 +13,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+/**
+ * Classe représentant une ville
+ */
 public class Ville{
     private String ip;
     private String network;
@@ -42,6 +45,14 @@ public class Ville{
     private String org;
     private long population;
 
+    private static JSONArray communes;
+
+    /**
+     * Actualise les informations de la ville via l'API ipapi.co
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws ParseException
+     */
     public void actualiser() throws IOException, InterruptedException, ParseException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("https://ipapi.co/" + ip + "/json")).header("Content-Type", "application/json").build();
@@ -75,18 +86,24 @@ public class Ville{
         this.asn = (String) obj.get("asn");
         this.org = (String) obj.get("org");
 
-        request = HttpRequest.newBuilder().uri(URI.create("https://geo.api.gouv.fr/communes")).header("Content-Type", "application/json").build();
-        response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        JSONArray jsonArray = (JSONArray) new JSONParser().parse(response.body());
-        for (Object o : jsonArray) {
-            JSONObject jsonObject = (JSONObject) o;
-            if (jsonObject.get("nom").equals(this.city)) {
-                this.population = (Long) jsonObject.get("population");
+        if (communes == null) {
+            communes = (JSONArray) new JSONParser().parse(new FileReader("MLP_Prog/src/Defis1/ressource/communes.json"));
+        }
+        for (Object o : communes) {
+            JSONObject commune = (JSONObject) o;
+            if (commune.get("nom").equals(this.city)) {
+                this.population = (Long) commune.get("population");
                 return;
             }
         }
     }
 
+    /**
+     * Constructeur
+     * @param ip
+     * @throws IOException
+     * @throws ParseException
+     */
     public Ville(String ip) throws IOException, ParseException {
         this.ip = ip;
         JSONArray jsonArray = (JSONArray) new JSONParser().parse(new FileReader("MLP_Prog/src/Defis1/ressource/villes.json"));
@@ -125,6 +142,11 @@ public class Ville{
         }
     }
 
+    /**
+     * Calcule la distance entre deux villes
+     * @param v ville 2
+     * @return distance entre les deux villes
+     */
     public double distance(Ville v) {
         Coordonnee c1 = new Coordonnee(this.latitude, this.longitude);
         Coordonnee c2 = new Coordonnee(v.latitude, v.longitude);
@@ -164,6 +186,10 @@ public class Ville{
                 '}';
     }
 
+    /**
+     * Convertit la ville en JSONObject
+     * @return
+     */
     public JSONObject toJSON(){
         JSONObject obj = new JSONObject();
         obj.put("ip", this.ip);
@@ -221,5 +247,8 @@ public class Ville{
         return (int) population;
     }
 
+    public String getCity() {
+        return city;
+    }
 
 }

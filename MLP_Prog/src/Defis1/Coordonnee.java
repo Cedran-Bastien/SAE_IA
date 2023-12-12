@@ -1,15 +1,40 @@
 package Defis1;
 
+/**
+ * Coordonnee
+ */
 public class Coordonnee {
+
+    /**
+     * latitude
+     */
     private double latitude;
+
+    /**
+     * longitude
+     */
     private double longitude;
+
+    /**
+     * rayonTerre
+     */
     private static double rayonTerre = 6.371;
 
+    /**
+     * Constructeur
+     * @param latitude
+     * @param longitude
+     */
     public Coordonnee(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
+    /**
+     * distance
+     * @param c
+     * @return
+     */
     public double distance(Coordonnee c) {
         double lat1 = Math.toRadians(this.latitude);
         double lat2 = Math.toRadians(c.latitude);
