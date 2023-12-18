@@ -23,11 +23,11 @@ public class MinMaxAlphaBetaPlayer extends Player {
     @Override
     public Action getMove(GameState state) {
         long startTime = System.currentTimeMillis();
-        ActionValuePair actionValuePair = null;
+        ActionValuePair actionValuePair;
         if (player == PLAYER1) {
-            actionValuePair = MaxValue(state, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 12);
+            actionValuePair = MaxValue(state, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 13);
         } else {
-            actionValuePair = MinValue(state, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 12);
+            actionValuePair = MinValue(state, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 13);
         }
         long estimatedTime = System.currentTimeMillis() - startTime;
         System.out.println("La recherche a durée " + estimatedTime / 1000. + " sec.");
