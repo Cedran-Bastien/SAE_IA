@@ -22,11 +22,16 @@ public class MinMaxAlphaBetaPlayer extends Player {
 
     @Override
     public Action getMove(GameState state) {
+        long startTime = System.currentTimeMillis();
+        ActionValuePair actionValuePair = null;
         if (player == PLAYER1) {
-            return MaxValue(state, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 12).getAction();
+            actionValuePair = MaxValue(state, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 12);
         } else {
-            return MinValue(state, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 12).getAction();
+            actionValuePair = MinValue(state, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 12);
         }
+        long estimatedTime = System.currentTimeMillis() - startTime;
+        System.out.println("La recherche a durée " + estimatedTime / 1000. + " sec.");
+        return actionValuePair.getAction();
     }
 
     private ActionValuePair MaxValue(GameState state, double alpha, double beta, int depth) {
