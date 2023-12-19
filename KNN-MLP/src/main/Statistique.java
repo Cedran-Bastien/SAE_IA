@@ -18,7 +18,7 @@ public class Statistique {
     MLP mlp;
 
     public Statistique(int nbTrain, int nbTest, int[] layers, double learningRate) throws BadTypeExeption, IOException, NotEnoughtImageExeption {
-        final String dataset = "Fashion";
+        final String dataset = "Numbers";
         final Charger data = new Charger();
         data.chargerImagette("KNN-MLP/data/"+dataset+"/train-images-idx3-ubyte", nbTrain);
         data.chargerEtiquettes("KNN-MLP/data/"+dataset+"/train-labels-idx1-ubyte");
@@ -36,7 +36,7 @@ public class Statistique {
         Arrays.stream(layers)
                 .forEach(lastLayers::add);
 
-        mlp = new MLP(lastLayers.stream().mapToInt(Integer::intValue).toArray(), learningRate, new TanH());
+        mlp = new MLP(lastLayers.stream().mapToInt(Integer::intValue).toArray(), learningRate, new Sigmoide());
     }
 
     public void learn() {
@@ -49,7 +49,7 @@ public class Statistique {
                         .asDoubleStream()
                         .toArray();
 
-                double[] output = new double[]{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+                double[] output = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
                 output[imagette.etiquettes] = 1;
                 error = mlp.backPropagate(input, output);
                 System.out.printf("loss: %f\n", error);
