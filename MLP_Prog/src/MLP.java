@@ -32,7 +32,7 @@ class Neuron {
 }
 
 class Layer {
-    public Neuron Neurons[];
+    public Neuron[] Neurons;
     public int 	  Length;
 
     /**
